@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block nav %}
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('patient_reg') }}">Patient Registration</a>
+    <a href="{{ url_for('simulation') }}">Simulation</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
+
+{% block content %}
+    <h2><u>Dashboard</u></h2>
+    
+    <div class="flashes">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="dashboard-content">
+        <p class="welcome-message">Welcome, <span class="highlight">{{ first_name }} {{ last_name }}</span>!</p>
+        <p class="info-text">Please navigate to the appropriate page using the navigation above.</p>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+
+{% block title %}Simulation{% endblock %}
+
+{% block nav %}
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('patient_reg') }}">Patient Registration</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
+
+{% block content %}
+    <h2><u>Simulation Page</u></h2>
+
+    <div class="flashes">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <p>NOTE: Simulation duration = Numbers of weeks of simulation data you want to run (e.g. yearly data = 52 weeks)</p>
+
+    <form method="POST" action="/simulation">
+        <div class="form-group">
+            <label for="hospital_capacity">Maximum Number of Patients (per week):</label>
+            <input type="number" id="hospital_capacity" name="hospital_capacity" required>
+        </div>
+
+        <div class="form-group">
+            <label for="num_doctors">Number of Doctors:</label>
+            <input type="number" id="num_doctors" name="num_doctors" required>
+        </div>
+
+        <div class="form-group">
+            <label for="patient_arrival_rate">Patient Arrival Rate (per week):</label>
+            <input type="number" id="patient_arrival_rate" name="patient_arrival_rate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="sim_duration">Simulation Duration (in weeks):</label>
+            <input type="number" id="sim_duration" name="sim_duration" required>
+        </div>
+
+        <div class="form-group">
+            <label for="sim_replications">Number of Simulation Replications:</label>
+            <input type="number" id="sim_replications" name="sim_replications" required>
+        </div><br>
+
+        <div>
+            <button type="submit">Run Simulation</button>
+        </div>
+    </form>
+{% endblock %}
+
+

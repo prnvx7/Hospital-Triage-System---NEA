@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% block title %}Simulation Results{% endblock %}
+
+{% block nav %}
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('patient_reg') }}">Patient Registration</a>
+    <a href="{{ url_for('simulation') }}">Simulation Page</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
+
+{% block content %}
+    <h2><u>Results</u></h2>
+
+    <div class="flashes">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div style="display: flex; justify-content: space-between; gap: 10px;">
+        {% if results %}
+            {% for mode in results %}
+                {% if mode.mode == 1 %}
+                    {% set mode_name = 'First Come First Serve (FCFS) Pathway' %}
+                {% elif mode.mode == 2 %}
+                    {% set mode_name = 'FCFS + Low Severity Pathway' %}
+                {% elif mode.mode == 3 %}
+                    {% set mode_name = 'FCFS + Low & Medium Severity Pathway' %}
+                {% else %}
+                    {% set mode_name = 'Mode ' ~ mode.mode %}
+                {% endif %}
+                <div style="flex: 1; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin: 5px; background-color: rgb(132, 178, 243); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+                    <h3 style="text-align: center; color: #000;"><u>{{ mode_name }}</u></h3><br>
+
+                    {% for simulation in mode.simulations %}
+                        <h4><u style="color: #000;">Simulation {{ simulation.simulation }}:</u></h4>
+                        <ul style="color: #000; list-style: none; padding: 0;">
+                            <li>Total Patients: <strong>{{ simulation.total_patients }}</strong></li>
+                            <li>Patients Treated: <strong>{{ simulation.total_patients_treated }}</strong></li>
+                            <li>Patients Not Testing Positive: <strong>{{ simulation.patients_not_positive }}</strong></li>
+                            <li>Average Wait Time: <strong>{{ simulation.average_wait_time }}</strong> weeks</li>
+                            <br>
+                        </ul>
+                    {% endfor %}
+
+                    <br><p style="color: #000;">Average Wait Time for {{ mode_name }}: <strong>{{ mode.average_wait_time }}</strong> weeks</p>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <p>No results available. Please run a simulation.</p>
+        {% endif %}
+    </div>
+
+    <br><br><a style="color: #fff;" href="{{ url_for('simulation') }}">Click to run another simulation</a>
+
+{% endblock %}
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}Home{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1><b><u>Hospital Triage Application</u></b></h1><br>
+        <nav>
+            {% block nav %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endblock %}
+        </nav>
+    </header>
+
+    <main class="card">      
+        {% block content %}
+            <h2><u>Home Page</u></h2>
+
+            <div class="flashes">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flashes">
+                            {% for category, message in messages %}
+                                <div class="flash {{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <p>Welcome to your application!</p>
+        {% endblock %}
+    </main>
+
+    <script>
+        /* Reference: Use of AI to automatically remove flashed messages after 10 seconds using JavaScript */
+        setTimeout(function() {
+            const flashes = document.querySelectorAll('.flash');
+            flashes.forEach(flash => {
+                flash.style.display = 'none';
+            });
+        }, 10000);
+    </script>
+
+</body>
+</html>
