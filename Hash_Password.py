@@ -28,15 +28,3 @@ def verify_password(stored_password: str, provided_password: str) -> bool:
     except Exception as e:
         print(f"Error during password verification: {e}")
         return False
-
-
-'''# Test hashing algorithm using example password
-stored_hash = hash_password("password_123")
-print(f"Stored hash: {stored_hash}")
-
-# Verification of hashing algorithm
-verify_hash = verify_password(stored_hash, "password_123")
-print(f"Password Match = {verify_hash}")
-
-
-'''
